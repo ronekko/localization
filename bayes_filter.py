@@ -112,11 +112,11 @@ def draw_p_s(s, a):
 
 def draw_a(flg):
     if flg == 0:
-        print "Command: move left"
-        return 0
-    elif flg == 1:
         print "Command: move right"
         return 1
+    elif flg == 1:
+        print "Command: move left"
+        return 0
 #    elif input_a == 2:
 #        print "Command:" + str(input_a) + "(stop)"
 #        return input_a
