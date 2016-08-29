@@ -110,20 +110,19 @@ def draw_p_s(s, a):
     return d_p_s
 
 
-def draw_a():
-    input_a = input('Command: 0(move left), 1(move right), 2(stop)>>>')
-    if input_a == 0:
-        print "Command:" + str(input_a) + "(move left)"
-        return input_a
-    elif input_a == 1:
-        print "Command:" + str(input_a) + "(move right)"
-        return input_a
-    elif input_a == 2:
-        print "Command:" + str(input_a) + "(stop)"
-        return input_a
-    else:
-        print"Invalid command!"
-        return -1
+def draw_a(flg):
+    if flg == 0:
+        print "Command: move left"
+        return 0
+    elif flg == 1:
+        print "Command: move right"
+        return 1
+#    elif input_a == 2:
+#        print "Command:" + str(input_a) + "(stop)"
+#        return input_a
+#    else:
+#        print"Invalid command!"
+#        return -1
 
 
 def draw_o(p_o_s, s):
@@ -143,6 +142,7 @@ if __name__ == '__main__':
     a = 2
     o = 0
     t = 0
+    flg = 0
     o_log = []
     s_log = []
     a_log = []
@@ -169,6 +169,8 @@ if __name__ == '__main__':
         show_p_s(p_s, s)
         determined_s = estimate_s.calculate_expectation(p_s)
         d_s_log.append(determined_s)
+        if determined_s == 4:
+            flg = 1
 
         if t > 5:
             if determined_s == 0:
@@ -182,7 +184,7 @@ if __name__ == '__main__':
                 break
 
         # aをドロー
-        a = draw_a()
+        a = draw_a(flg)
         if a == -1:
             break
         print "a = "+str(a)
