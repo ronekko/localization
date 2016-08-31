@@ -5,6 +5,7 @@ Created on Tue Aug 16 17:35:55 2016
 @author: Fujiichang
 """
 import random
+import collections
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tick
@@ -77,6 +78,10 @@ def show_result(s, determined_s):
     plt.tight_layout()
     plt.show()
 
+
+def cout_list(p_s):
+    count_dict = collections.Counter(p_s)
+    return len(count_dict.items())
 
 def multinomial(p):
     sum_p = sum(p)
