@@ -123,6 +123,15 @@ def draw_o(p_o_s, s):
     p_o = multinomial(p_o_s[s])
     return p_o
 
+
+def calculate_correct_answer(s_log, d_s_log, t):
+    count = 0
+    for i in range(len(s_log)):
+        if s_log[i] == d_s_log[i]:
+            count = count + 1
+    correct_answer = 100 * count / (t + 1)
+    print "Percentage of correct answer : " + str(correct_answer) + " %"
+
 if __name__ == '__main__':
     '''
     docstring
@@ -173,6 +182,7 @@ if __name__ == '__main__':
                 print "a   = " + str(a_log)
                 show_result(s_log, d_s_log)
                 show_merged_result(s_log, d_s_log)
+                calculate_correct_answer(s_log, d_s_log, t)
                 break
 
         # aをドロー
