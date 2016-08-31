@@ -72,10 +72,6 @@ def show_result(s, determined_s):
     plt.show()
 
 
-def cout_list(p_s):
-    count_dict = collections.Counter(p_s)
-    return len(count_dict.items())
-
 def multinomial(p):
     sum_p = sum(p)
     assert(sum_p >= 1)
