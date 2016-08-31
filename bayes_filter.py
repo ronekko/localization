@@ -164,6 +164,7 @@ if __name__ == '__main__':
         p_s = estimate_s.calculate_corrected_distribution(p_o_s, p_s_bar, o)
         show_p_s(p_s, s)
         determined_s = estimate_s.calculate_expectation(p_s)
+        print "determined_s = "+str(determined_s)
         d_s_log.append(determined_s)
         if determined_s == 4:
             flg = 1
