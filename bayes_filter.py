@@ -189,10 +189,9 @@ if __name__ == '__main__':
                 break
 
         # aをドロー
-        a = draw_a(flg)
+        a = draw_a(flg, p_s)
         if a == -1:
             break
-        print "a = "+str(a)
         a_log.append(a)
 
         # sをドロー,時間の更新
