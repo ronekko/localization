@@ -34,6 +34,74 @@ p_s_a = [[[1, 0, 0, 0, 0], [0.1, 0.9, 0, 0, 0], [1, 0, 0, 0, 0]],
          [[0, 0, 0, 0.9, 0.1], [0, 0, 0, 0, 1], [0, 0, 0, 0, 1]]]
 
 
+class BayesFilter(object):
+    def __init__(self, p_s_a, p_o_s):
+        self.p_s_a = p_s_a
+        self.p_o_s = p_o_s
+
+    def update_p_s(self, o, p_s_bar):
+        p_s = estimate_s.calculate_corrected_distribution(p_o_s, p_s_bar, o)
+        return p_s
+
+    def update_p_s_bar(self, p_s, a):
+        p_s_bar = estimate_s.calculate_predicted_distribution(self.p_s_a, p_s, a)
+        return p_s_bar
+
+
+class Controller(object):
+    def __init__(self):
+        self.s = 0
+
+    def determine_a(self, p_s, goals):
+        determined_s = estimate_s.calculate_expectation(p_s)
+        self.s = 0
+        if goals[self.s] - determined_s > 0:
+            a = 1
+        elif goals[self.s] - determined_s < 0:
+            a = -1
+        elif goals[self.s] - determined_s == 0:
+            self.s = self.s + 1
+            a = -1 * a
+        return a
+
+
+class Simulator(object):
+    def __init__(self, p_s_a, p_o_s):
+        self._s = 0
+        self.p_s_a = p_s_a
+        self.p_o_s = p_o_s
+
+    def get_o(self):
+        o = multinomial(self.p_o_s[self._s])
+        return o
+
+    def set_a(self, a):
+        self._s = self.draw_s(self._s, a)
+
+    def get_s(self):
+        return self._s
+
+    def _draw_s(self, previous_s, a):
+        p_s = self.p_s_a[previous_s][a]
+        new_s = multinomial(p_s)
+        return new_s
+
+
+def main():
+    simulator = Simulator(p_s_a)
+    estimator = BayesFilter(p_s_a)
+    controller = Controller()
+    p_s_bar = 5 * [0.2]
+    goals = [4, 0]
+
+    o = simulator.get_o()
+    p_s = estimator.update_p_s(o, p_s_bar)
+    a = controller.determine_a(p_s, goals)
+    simulator.set_a(a)
+    p_s_bar = estimator.update_p_s_bar(p_s, a)
+    s = simulator.get_s()
+
+
 def show_p_s(p_s, s):
     plt.ylim([0.0, 1.0])
     plt.bar(range(len(p_s)), p_s, align='center')
