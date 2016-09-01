@@ -1,33 +1,22 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jul 21 16:42:03 2016
+Created on Thu Sep 01 18:43:53 2016
 
 @author: Fujiichang
 """
 import random
-
-
-def calculate_cum_sum(p):
-
-    K = len(p)
-    cum_sum = K*[0]
-    for n in range(K):
-        if n == 0:
-            cum_sum[n] = p[n]
-        elif n != 0:
-            cum_sum[n] = cum_sum[n-1] + p[n]
-    return cum_sum
+import calculate_cum_sum
 
 
 def multinomial(p):
-
-    assert(sum(p) == 1)
+    sum_p = sum(p)
+    assert(sum_p >= 1)
     cum_sum = len(p)*[0]
-    cum_sum = calculate_cum_sum(p)
+    cum_sum = calculate_cum_sum.calculate_cum_sum(p)
     K = len(cum_sum)
     u = random.random()
 
     for k in range(K):
         if u <= cum_sum[k]:
             return k
-    return k-1
+    return k - 1
