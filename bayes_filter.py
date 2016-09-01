@@ -5,7 +5,6 @@ Created on Tue Aug 16 17:35:55 2016
 @author: Fujiichang
 """
 import random
-import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tick
 import estimate_s
