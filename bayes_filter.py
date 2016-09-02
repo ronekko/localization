@@ -205,7 +205,6 @@ def calculate_cum_sum(p):
 
 
 def draw_p_s(s, a):
-    p_s = state_number * [0]
     p_s = p_s_a[s][a]
     d_p_s = multinomial(p_s)
     return d_p_s
