@@ -237,7 +237,8 @@ if __name__ == '__main__':
 
         # 観測前のp_sを推測
         if t == 0:
-            p_s_bar = state_number * [0.2]
+            p_s_bar = state_number * [0]
+            p_s_bar[0] = 1
         else:
             p_s_bar = estimate_s.calculate_predicted_distribution(p_s_a, p_s, a)
         show_p_s(p_s_bar, s)
