@@ -66,6 +66,12 @@ class Controller(object):
             a = 2
         return a
 
+    def is_terminated(self):
+        if is_empty(self.goals) is True:
+            return True
+        else:
+            return False
+
 
 class Simulator(object):
     def __init__(self, p_s_a, p_o_s):
