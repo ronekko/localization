@@ -96,19 +96,21 @@ class Simulator(object):
 
 
 def main():
-    simulator = Simulator(p_s_a)
-    estimator = BayesFilter(p_s_a)
-    controller = Controller()
-    p_s_bar = 5 * [0.2]
-    goals = [4, 0]
+    while True:
+        simulator = Simulator(p_s_a)
+        estimator = BayesFilter(p_s_a)
+        controller = Controller()
+        p_s_bar = 5 * [0.2]
+        goals = [4, 0]
 
-    o = simulator.get_o()
-    p_s = estimator.update_p_s(o, p_s_bar)
-    a = controller.determine_a(p_s, goals)
-    simulator.set_a(a)
-    p_s_bar = estimator.update_p_s_bar(p_s, a)
-    s = simulator.get_s()
-    controller.is_terminated()
+        o = simulator.get_o()
+        p_s = estimator.update_p_s(o, p_s_bar)
+        a = controller.determine_a(p_s, goals)
+        simulator.set_a(a)
+        p_s_bar = estimator.update_p_s_bar(p_s, a)
+        s = simulator.get_s()
+        if controller.is_terminated() == True:
+            break
 
 
 def is_empty(goals):
