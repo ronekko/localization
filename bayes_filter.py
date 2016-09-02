@@ -40,7 +40,7 @@ class BayesFilter(object):
         self.p_o_s = p_o_s
 
     def update_p_s(self, o, p_s_bar):
-        p_s = estimate_s.calculate_corrected_distribution(p_o_s, p_s_bar, o)
+        p_s = estimate_s.calculate_corrected_distribution(self.p_o_s, p_s_bar, o)
         return p_s
 
     def update_p_s_bar(self, p_s, a):
