@@ -88,19 +88,27 @@ class Simulator(object):
 
 
 def main():
-    simulator = Simulator(p_s_a)
-    estimator = BayesFilter(p_s_a)
-    controller = Controller()
-    p_s_bar = 5 * [0.2]
-    goals = [4, 0]
+    while True:
+        simulator = Simulator(p_s_a, p_o_s)
+        goals = [4, 0]
+        controller = Controller(goals)
+        estimator = BayesFilter(p_s_a, p_o_s)
+        p_s_bar = 5 * [0.2]
 
-    o = simulator.get_o()
-    p_s = estimator.update_p_s(o, p_s_bar)
-    a = controller.determine_a(p_s, goals)
-    simulator.set_a(a)
-    p_s_bar = estimator.update_p_s_bar(p_s, a)
-    s = simulator.get_s()
+        o = simulator.get_o()
+        p_s = estimator.update_p_s(o, p_s_bar)
+        a = controller.determine_a(p_s)
+        simulator.set_a(a)
+        p_s_bar = estimator.update_p_s_bar(p_s, a)
+        s = simulator.get_s()
+        if controller.is_terminated() is True:
+            break
 
+def is_empty(goals):
+    if len(goals) == 0:
+        return True
+    else:
+        return False
 
 def show_p_s(p_s, s):
     plt.ylim([0.0, 1.0])
