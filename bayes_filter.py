@@ -49,19 +49,21 @@ class BayesFilter(object):
 
 
 class Controller(object):
-    def __init__(self):
-        self.s = 0
 
-    def determine_a(self, p_s, goals):
+    def __init__(self, goals):
+        self.goals = goals
+
+    def determine_a(self, p_s):
         determined_s = estimate_s.calculate_expectation(p_s)
-        self.s = 0
-        if goals[self.s] - determined_s > 0:
+        next_goal = self.goals[0]
+        if next_goal == determined_s:
+            next_goal = self.goals.pop(0)
+        if next_goal - determined_s > 0:
+            a = 0
+        elif next_goal - determined_s < 0:
             a = 1
-        elif goals[self.s] - determined_s < 0:
-            a = -1
-        elif goals[self.s] - determined_s == 0:
-            self.s = self.s + 1
-            a = -1 * a
+        else:
+            a = 2
         return a
 
 
