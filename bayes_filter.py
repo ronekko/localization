@@ -96,21 +96,20 @@ class Simulator(object):
 
 
 def main():
-    while True:
-        simulator = Simulator(p_s_a, p_o_s)
-        goals = [4, 0]
-        controller = Controller(goals)
-        estimator = BayesFilter(p_s_a, p_o_s)
-        p_s_bar = 5 * [0.2]
+    simulator = Simulator(p_s_a)
+    estimator = BayesFilter(p_s_a)
+    controller = Controller()
+    p_s_bar = 5 * [0.2]
+    goals = [4, 0]
 
-        o = simulator.get_o()
-        p_s = estimator.update_p_s(o, p_s_bar)
-        a = controller.determine_a(p_s)
-        simulator.set_a(a)
-        p_s_bar = estimator.update_p_s_bar(p_s, a)
-        s = simulator.get_s()
-        if controller.is_terminated() is True:
-            break
+    o = simulator.get_o()
+    p_s = estimator.update_p_s(o, p_s_bar)
+    a = controller.determine_a(p_s, goals)
+    simulator.set_a(a)
+    p_s_bar = estimator.update_p_s_bar(p_s, a)
+    s = simulator.get_s()
+    controller.is_terminated()
+
 
 def is_empty(goals):
     if len(goals) == 0:
@@ -262,6 +261,8 @@ if __name__ == '__main__':
 
         # aをドロー
         a = draw_a(flg, p_s)
+        if a == -1:
+            break
         a_log.append(a)
 
         # sをドロー,時間の更新
