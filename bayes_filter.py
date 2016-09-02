@@ -262,3 +262,12 @@ if __name__ == '__main__':
         print "s = "+str(s)
         s_log.append(s)
         t = t + 1
+
+    print "Finish"
+    print "o   = " + str(o_log)
+    print "s   = " + str(s_log)
+    print "e_s = " + str(d_s_log)
+    print "a   = " + str(a_log)
+    show_result(s_log, d_s_log)
+    show_merged_result(s_log, d_s_log)
+    calculate_correct_answer(s_log, d_s_log, t)
