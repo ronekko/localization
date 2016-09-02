@@ -133,17 +133,18 @@ def is_empty(goals):
         return False
 
 
-def print_reault():
+def print_result(o_log, actual_s_log, determined_s_log, a_log, t):
         print "Finish"
         print "o   = " + str(o_log)
-        print "s   = " + str(s_log)
-        print "e_s = " + str(d_s_log)
+        print "s   = " + str(actual_s_log)
+        print "e_s = " + str(determined_s_log)
         print "a   = " + str(a_log)
-        show_result(s_log, d_s_log)
-        show_merged_result(s_log, d_s_log)
-        calculate_correct_answer(s_log, d_s_log, t)
+        show_result(actual_s_log, determined_s_log)
+        show_merged_result(actual_s_log, determined_s_log)
+        calculate_correct_answer(actual_s_log, determined_s_log, t)
 
-def show_p_s(p_s, s):
+
+def show_p_s(p_s):
     plt.ylim([0.0, 1.0])
     plt.bar(range(len(p_s)), p_s, align='center')
     plt.show()
