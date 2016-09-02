@@ -217,69 +217,61 @@ def calculate_correct_answer(s_log, d_s_log, t):
     print "Percentage of correct answer : " + str(correct_answer) + " %"
 
 if __name__ == '__main__':
-    '''
-    docstring
-    '''
-    n = 100
-    state_number = 5
-    s = 0
-    a = 2
-    o = 0
-    t = 0
-    flg = 0
-    o_log = []
-    s_log = []
-    a_log = []
-    p_s = state_number * [0]
-    p_s_bar = state_number * [0]
-    d_s_log = []
-
-    while True:
-
-        # 観測前のp_sを推測
-        if t == 0:
-            p_s_bar = state_number * [0]
-            p_s_bar[0] = 1
-        else:
-            p_s_bar = estimate_s.calculate_predicted_distribution(p_s_a, p_s, a)
-        show_p_s(p_s_bar, s)
-
-        # oをドロー
-        o = draw_o(p_o_s, s)
-        print "o = "+str(o)
-        o_log.append(o)
-
-        # 観測後のp_sを推測
-        p_s = estimate_s.calculate_corrected_distribution(p_o_s, p_s_bar, o)
-        show_p_s(p_s, s)
-        determined_s = estimate_s.calculate_expectation(p_s)
-        print "determined_s = "+str(determined_s)
-        d_s_log.append(determined_s)
-        if determined_s == 4:
-            flg = 1
-
-        if determined_s == 0 and t > 5:
-            break
-
-        # aをドロー
-        a = draw_a(flg, p_s)
-        if a == -1:
-            break
-        a_log.append(a)
-
-        # sをドロー,時間の更新
-        if t == 0:
-            s_log.append(0)
-        s = draw_p_s(s, a)
-        print "s = "+str(s)
-        s_log.append(s)
-        t = t + 1
-
-    print "Finish"
-    print "o   = " + str(o_log)
-    print "s   = " + str(s_log)
-    print "e_s = " + str(d_s_log)
-    print "a   = " + str(a_log)
-    show_result(s_log, d_s_log)
-    show_merged_result(s_log, d_s_log)
-    calculate_correct_answer(s_log, d_s_log, t)
+#    '''
+#    docstring
+#    '''
+#    n = 100
+#    state_number = 5
+#    s = 0
+#    a = 2
+#    o = 0
+#    t = 0
+#    flg = 0
+#    o_log = []
+#    s_log = []
+#    a_log = []
+#    p_s = state_number * [0]
+#    p_s_bar = state_number * [0]
+#    d_s_log = []
+#
+#    while True:
+#
+#        # 観測前のp_sを推測
+#        if t == 0:
+#            p_s_bar = state_number * [0]
+#            p_s_bar[0] = 1
+#        else:
+#            p_s_bar = estimate_s.calculate_predicted_distribution(p_s_a, p_s, a)
+#        show_p_s(p_s_bar, s)
+#
+#        # oをドロー
+#        o = draw_o(p_o_s, s)
+#        print "o = "+str(o)
+#        o_log.append(o)
+#
+#        # 観測後のp_sを推測
+#        p_s = estimate_s.calculate_corrected_distribution(p_o_s, p_s_bar, o)
+#        show_p_s(p_s, s)
+#        determined_s = estimate_s.calculate_expectation(p_s)
+#        print "determined_s = "+str(determined_s)
+#        d_s_log.append(determined_s)
+#        if determined_s == 4:
+#            flg = 1
+#
+#        if determined_s == 0 and t > 5:
+#            break
+#
+#        # aをドロー
+#        a = draw_a(flg, p_s)
+#        if a == -1:
+#            break
+#        a_log.append(a)
+#
+#        # sをドロー,時間の更新
+#        if t == 0:
+#            s_log.append(0)
+#        s = draw_p_s(s, a)
+#        print "s = "+str(s)
+#        s_log.append(s)
+#        t = t + 1
+    main()
