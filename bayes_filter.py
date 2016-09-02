@@ -53,15 +53,18 @@ class Controller(object):
     def __init__(self, goals):
         self.goals = goals
 
-    def determine_a(self, p_s):
+    def determine_a(self, p_s, determined_s_log):
         determined_s = estimate_s.calculate_expectation(p_s)
+        determined_s_log.append(determined_s)
         next_goal = self.goals[0]
         if next_goal == determined_s:
-            next_goal = self.goals.pop(0)
+            self.goals.pop(0)
+            if self.is_terminated() is False:
+                next_goal = self.goals[0]
         if next_goal - determined_s > 0:
-            a = 0
-        elif next_goal - determined_s < 0:
             a = 1
+        elif next_goal - determined_s < 0:
+            a = 0
         else:
             a = 2
         return a
