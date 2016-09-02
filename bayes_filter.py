@@ -79,37 +79,47 @@ class Simulator(object):
         self.p_s_a = p_s_a
         self.p_o_s = p_o_s
 
-    def get_o(self):
-        o = multinomial(self.p_o_s[self._s])
-        return o
-
-    def set_a(self, a):
-        self._s = self.draw_s(self._s, a)
-
-    def get_s(self):
-        return self._s
-
     def _draw_s(self, previous_s, a):
         p_s = self.p_s_a[previous_s][a]
         new_s = multinomial(p_s)
         return new_s
 
+    def get_o(self):
+        o = multinomial(self.p_o_s[self._s])
+        return o
+
+    def set_a(self, a):
+        self._s = self._draw_s(self._s, a)
+
+    def get_s(self):
+        return self._s
+
 
 def main():
-    while True:
-        simulator = Simulator(p_s_a)
-        estimator = BayesFilter(p_s_a)
-        controller = Controller()
-        p_s_bar = 5 * [0.2]
-        goals = [4, 0]
+    o_log = []
+    a_log = []
+    actual_s_log = []
+    simulator = Simulator(p_s_a, p_o_s)
+    estimator = BayesFilter(p_s_a, p_o_s)
+    goals = [4, 0]
+    controller = Controller(goals)
+    p_s_bar = 5 * [0]
+    p_s_bar[0] = 1
 
+    while True:
         o = simulator.get_o()
+        o_log.append(o)
+        print "o =", o
         p_s = estimator.update_p_s(o, p_s_bar)
-        a = controller.determine_a(p_s, goals)
+        a = controller.determine_a(p_s)
+        a_log.append(a)
+        print "a =", a
         simulator.set_a(a)
         p_s_bar = estimator.update_p_s_bar(p_s, a)
         s = simulator.get_s()
-        if controller.is_terminated() == True:
+        print "s =", s
+        actual_s_log.append(s)
+        if controller.is_terminated() is True:
             break
 
 
