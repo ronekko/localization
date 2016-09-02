@@ -248,22 +248,11 @@ if __name__ == '__main__':
         if determined_s == 4:
             flg = 1
 
-        if t > 5:
-            if determined_s == 0:
-                print "Finish"
-                print "o   = " + str(o_log)
-                print "s   = " + str(s_log)
-                print "e_s = " + str(d_s_log)
-                print "a   = " + str(a_log)
-                show_result(s_log, d_s_log)
-                show_merged_result(s_log, d_s_log)
-                calculate_correct_answer(s_log, d_s_log, t)
-                break
+        if determined_s == 0 and t > 5:
+            break
 
         # aをドロー
         a = draw_a(flg, p_s)
-        if a == -1:
-            break
         a_log.append(a)
 
         # sをドロー,時間の更新
