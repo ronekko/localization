@@ -233,7 +233,7 @@ def draw_o(p_o_s, s):
 
 def calculate_correct_answer(s_log, d_s_log, t):
     count = 0
-    for i in range(len(s_log)):
+    for i in range(len(s_log) - 1):
         if s_log[i] == d_s_log[i]:
             count = count + 1
     correct_answer = 100 * count / (t + 1)
