@@ -100,30 +100,39 @@ class Simulator(object):
 
 def main():
     o_log = []
+    determined_s_log = []
     a_log = []
     actual_s_log = []
+    actual_s_log.append(0)
     simulator = Simulator(p_s_a, p_o_s)
     estimator = BayesFilter(p_s_a, p_o_s)
     goals = [4, 0]
     controller = Controller(goals)
     p_s_bar = 5 * [0]
     p_s_bar[0] = 1
+    t = 0
 
     while True:
         o = simulator.get_o()
         o_log.append(o)
         print "o =", o
         p_s = estimator.update_p_s(o, p_s_bar)
-        a = controller.determine_a(p_s)
+        show_p_s(p_s)
+
+        if controller.is_terminated() is True:
+            print_result(o_log, actual_s_log, determined_s_log, a_log, t)
+            break
+
+        a = controller.determine_a(p_s, determined_s_log)
         a_log.append(a)
         print "a =", a
         simulator.set_a(a)
-        p_s_bar = estimator.update_p_s_bar(p_s, a)
         s = simulator.get_s()
         print "s =", s
         actual_s_log.append(s)
-        if controller.is_terminated() is True:
-            break
+        t = t + 1
+        p_s_bar = estimator.update_p_s_bar(p_s, a)
+        show_p_s(p_s_bar)
 
 
 def is_empty(goals):
