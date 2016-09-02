@@ -119,6 +119,17 @@ def is_empty(goals):
     else:
         return False
 
+
+def print_reault():
+        print "Finish"
+        print "o   = " + str(o_log)
+        print "s   = " + str(s_log)
+        print "e_s = " + str(d_s_log)
+        print "a   = " + str(a_log)
+        show_result(s_log, d_s_log)
+        show_merged_result(s_log, d_s_log)
+        calculate_correct_answer(s_log, d_s_log, t)
+
 def show_p_s(p_s, s):
     plt.ylim([0.0, 1.0])
     plt.bar(range(len(p_s)), p_s, align='center')
