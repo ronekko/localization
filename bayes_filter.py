@@ -61,19 +61,16 @@ class Controller(object):
             self.goals.pop(0)
             if self.is_terminated() is False:
                 next_goal = self.goals[0]
-        if next_goal - determined_s > 0:
-            a = 1
-        elif next_goal - determined_s < 0:
+        if next_goal - determined_s < 0:
             a = 0
+        elif next_goal - determined_s > 0:
+            a = 1
         else:
             a = 2
         return a
 
     def is_terminated(self):
-        if is_empty(self.goals) is True:
-            return True
-        else:
-            return False
+        return is_empty(self.goals)
 
 
 class Simulator(object):
