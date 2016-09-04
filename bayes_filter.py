@@ -7,7 +7,6 @@ Created on Tue Aug 16 17:35:55 2016
 import random
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tick
-import estimate_s
 
 p_o_s = [[0.01, 0.01, 0.01, 0.01, 0.85, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01],
          [0.01, 0.01, 0.01, 0.01, 0.01, 0.85, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01],
