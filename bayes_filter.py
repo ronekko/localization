@@ -134,10 +134,7 @@ def main():
 
 
 def is_empty(goals):
-    if len(goals) == 0:
-        return True
-    else:
-        return False
+    return len(goals) == 0
 
 
 def print_result(o_log, actual_s_log, determined_s_log, a_log, t):
