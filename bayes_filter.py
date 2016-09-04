@@ -40,11 +40,21 @@ class BayesFilter(object):
         self.p_o_s = p_o_s
 
     def update_p_s(self, o, p_s_bar):
-        p_s = estimate_s.calculate_corrected_distribution(self.p_o_s, p_s_bar, o)
-        return p_s
+        g = 5 * [0]
+        f = 5 * [0]
+
+        for s in range(5):
+            g[s] = self.p_o_s[s][o] * p_s_bar[s]
+
+        sum_g = sum(g[s] for s in range(5))
+        for s in range(5):
+            f[s] = g[s]/sum_g
+        return f
 
     def update_p_s_bar(self, p_s, a):
-        p_s_bar = estimate_s.calculate_predicted_distribution(self.p_s_a, p_s, a)
+        p_s_bar = 5 * [0]
+        for s in range(5):
+            p_s_bar[s] = sum([self.p_s_a[m][a][s] * p_s[m] for m in range(5)])
         return p_s_bar
 
 
@@ -53,8 +63,12 @@ class Controller(object):
     def __init__(self, goals):
         self.goals = goals
 
+    def calculate_expectation(self, f):
+        expectation = sum(f[s] * s for s in range(5))
+        return int(round(expectation, 0))
+
     def determine_a(self, p_s, determined_s_log):
-        determined_s = estimate_s.calculate_expectation(p_s)
+        determined_s = self.calculate_expectation(p_s)
         determined_s_log.append(determined_s)
         next_goal = self.goals[0]
         if next_goal == determined_s:
