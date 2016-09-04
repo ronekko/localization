@@ -119,11 +119,12 @@ def main():
         p_s = estimator.update_p_s(o, p_s_bar)
         show_p_s(p_s)
 
+        a = controller.determine_a(p_s, determined_s_log)
+
         if controller.is_terminated() is True:
             print_result(o_log, actual_s_log, determined_s_log, a_log, t)
             break
 
-        a = controller.determine_a(p_s, determined_s_log)
         a_log.append(a)
         print "a =", a
         simulator.set_a(a)
