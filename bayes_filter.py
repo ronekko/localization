@@ -110,6 +110,7 @@ def main():
     t = 0
 
     while True:
+        print "step:", t, "############"
         o = simulator.get_o()
         o_log.append(o)
         print "o =", o
