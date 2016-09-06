@@ -6,7 +6,7 @@ Created on Wed Jul 27 12:47:11 2016
 """
 
 import unittest
-import multinomial
+import bayes_filter
 
 
 class TestCalculateCumSum(unittest.TestCase):
@@ -14,7 +14,7 @@ class TestCalculateCumSum(unittest.TestCase):
     def test_calculate_cum_sum(self):
         p = [0.2, 0.3, 0.5]
         expected = [0.2, 0.5, 1.0]
-        actual = multinomial.calculate_cum_sum(p)
+        actual = bayes_filter.calculate_cum_sum(p)
         self.assertEquals(actual, expected)
 
 
@@ -26,18 +26,18 @@ class TestMultinomial(unittest.TestCase):
         sample = N*[0]
         expected = 0.80
         for n in range(N):
-            sample[n] = multinomial.multinomial(p)
+            sample[n] = bayes_filter.multinomial(p)
         avg_sample = sum(sample)/float(N)
         self.assertAlmostEqual(expected, avg_sample, 2)
 
     def test_sum_p_not_equal_one(self):
         p = [0.2, 0.3, 0.4]
-        self.assertRaises(AssertionError, multinomial.multinomial, p)
+        self.assertRaises(AssertionError, bayes_filter.multinomial, p)
 
     def test_p_elements_are_one_or_zero(self):
         p = [1, 0, 0, 0]
         expected = 0
-        actual = multinomial.multinomial(p)
+        actual = bayes_filter.multinomial(p)
         self.assertEqual(actual, expected)
 
 if __name__ == "__main__":
