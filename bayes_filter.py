@@ -13,18 +13,6 @@ p_o_s = [[0.01, 0.01, 0.01, 0.01, 0.85, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01
          [0.01, 0.01, 0.01, 0.01, 0.01, 0.85, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01],
          [0.01, 0.01, 0.01, 0.01, 0.01, 0.85, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01],
          [0.01, 0.85, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]]
-#
-#p_o_s = [[0.02, 0.02, 0.02, 0.02, 0.70, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02],
-#         [0.02, 0.02, 0.02, 0.02, 0.02, 0.70, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02],
-#         [0.02, 0.02, 0.02, 0.02, 0.02, 0.70, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02],
-#         [0.02, 0.02, 0.02, 0.02, 0.02, 0.70, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02],
-#         [0.02, 0.70, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02]]
-#
-#p_o_s = [[0.03, 0.03, 0.03, 0.03, 0.55, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03],
-#         [0.03, 0.03, 0.03, 0.03, 0.03, 0.55, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03],
-#         [0.03, 0.03, 0.03, 0.03, 0.03, 0.55, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03],
-#         [0.03, 0.03, 0.03, 0.03, 0.03, 0.55, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03],
-#         [0.03, 0.55, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03]]
 
 p_s_a = [[[1, 0, 0, 0, 0], [0.1, 0.9, 0, 0, 0], [1, 0, 0, 0, 0]],
          [[0.9, 0.1, 0, 0, 0], [0, 0.1, 0.9, 0, 0], [0, 1, 0, 0, 0]],
@@ -108,58 +96,19 @@ class Simulator(object):
         return self._s
 
 
-def main():
-    o_log = []
-    determined_s_log = []
-    a_log = []
-    actual_s_log = []
-    actual_s_log.append(0)
-    simulator = Simulator(p_s_a, p_o_s)
-    estimator = BayesFilter(p_s_a, p_o_s)
-    goals = [4, 0]
-    controller = Controller(goals)
-    p_s_bar = 5 * [0]
-    p_s_bar[0] = 1
-    t = 0
-
-    while True:
-        print "step:", t, "############"
-        o = simulator.get_o()
-        o_log.append(o)
-        print "o =", o
-        p_s = estimator.update_p_s(o, p_s_bar)
-        show_p_s(p_s)
-
-        a = controller.determine_a(p_s, determined_s_log)
-
-        if controller.is_terminated() is True:
-            print_result(o_log, actual_s_log, determined_s_log, a_log, t)
-            break
-
-        a_log.append(a)
-        print "a =", a
-        simulator.set_a(a)
-        s = simulator.get_s()
-        print "s =", s
-        actual_s_log.append(s)
-        t = t + 1
-        p_s_bar = estimator.update_p_s_bar(p_s, a)
-        show_p_s(p_s_bar)
-
-
 def is_empty(goals):
     return len(goals) == 0
 
 
 def print_result(o_log, actual_s_log, determined_s_log, a_log, t):
-        print "Finish"
-        print "o   = " + str(o_log)
-        print "s   = " + str(actual_s_log)
-        print "e_s = " + str(determined_s_log)
-        print "a   = " + str(a_log)
-        show_result(actual_s_log, determined_s_log)
-        show_merged_result(actual_s_log, determined_s_log)
-        calculate_correct_answer(actual_s_log, determined_s_log, t)
+    print "Finish"
+    print "o   = " + str(o_log)
+    print "s   = " + str(actual_s_log)
+    print "e_s = " + str(determined_s_log)
+    print "a   = " + str(a_log)
+    show_result(actual_s_log, determined_s_log)
+    show_merged_result(actual_s_log, determined_s_log)
+    calculate_correct_answer(actual_s_log, determined_s_log, t)
 
 
 def show_p_s(p_s):
@@ -243,9 +192,6 @@ def draw_a(flg, p_s):
 
 
 def draw_o(p_o_s, s):
-    '''
-    '''
-    p_o = 0
     p_o = multinomial(p_o_s[s])
     return p_o
 
@@ -259,61 +205,40 @@ def calculate_correct_answer(s_log, d_s_log, t):
     print "Percentage of correct answer : " + str(correct_answer) + " %"
 
 if __name__ == '__main__':
-#    '''
-#    docstring
-#    '''
-#    n = 100
-#    state_number = 5
-#    s = 0
-#    a = 2
-#    o = 0
-#    t = 0
-#    flg = 0
-#    o_log = []
-#    s_log = []
-#    a_log = []
-#    p_s = state_number * [0]
-#    p_s_bar = state_number * [0]
-#    d_s_log = []
-#
-#    while True:
-#
-#        # 観測前のp_sを推測
-#        if t == 0:
-#            p_s_bar = state_number * [0]
-#            p_s_bar[0] = 1
-#        else:
-#            p_s_bar = estimate_s.calculate_predicted_distribution(p_s_a, p_s, a)
-#        show_p_s(p_s_bar, s)
-#
-#        # oをドロー
-#        o = draw_o(p_o_s, s)
-#        print "o = "+str(o)
-#        o_log.append(o)
-#
-#        # 観測後のp_sを推測
-#        p_s = estimate_s.calculate_corrected_distribution(p_o_s, p_s_bar, o)
-#        show_p_s(p_s, s)
-#        determined_s = estimate_s.calculate_expectation(p_s)
-#        print "determined_s = "+str(determined_s)
-#        d_s_log.append(determined_s)
-#        if determined_s == 4:
-#            flg = 1
-#
-#        if determined_s == 0 and t > 5:
-#            break
-#
-#        # aをドロー
-#        a = draw_a(flg, p_s)
-#        if a == -1:
-#            break
-#        a_log.append(a)
-#
-#        # sをドロー,時間の更新
-#        if t == 0:
-#            s_log.append(0)
-#        s = draw_p_s(s, a)
-#        print "s = "+str(s)
-#        s_log.append(s)
-#        t = t + 1
-    main()
+
+    o_log = []
+    determined_s_log = []
+    a_log = []
+    actual_s_log = []
+    actual_s_log.append(0)
+    simulator = Simulator(p_s_a, p_o_s)
+    estimator = BayesFilter(p_s_a, p_o_s)
+    goals = [4, 0]
+    controller = Controller(goals)
+    p_s_bar = 5 * [0]
+    p_s_bar[0] = 1
+    t = 0
+
+    while True:
+        print "step:", t, "############"
+        o = simulator.get_o()
+        o_log.append(o)
+        print "o =", o
+        p_s = estimator.update_p_s(o, p_s_bar)
+        show_p_s(p_s)
+
+        a = controller.determine_a(p_s, determined_s_log)
+
+        if controller.is_terminated() is True:
+            print_result(o_log, actual_s_log, determined_s_log, a_log, t)
+            break
+
+        a_log.append(a)
+        print "a =", a
+        simulator.set_a(a)
+        s = simulator.get_s()
+        print "s =", s
+        actual_s_log.append(s)
+        t = t + 1
+        p_s_bar = estimator.update_p_s_bar(p_s, a)
+        show_p_s(p_s_bar)
