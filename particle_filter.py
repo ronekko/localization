@@ -99,7 +99,39 @@ class Controller(object):
     def is_terminated(self):
         return bayes_filter.is_empty(self.goals)
 
+
+if __name__ == "__main__":
     estimater = ParticleFilter()
-    particle_num = 5
-    particle = [[0 for i in range(1)] for j in range(particle_num)]
-    estimater.update_p_s(1, particle)
+    simulator = bayes_filter.Simulator(p_s_a, p_o_s)
+    goals = [4, 0]
+    controller = Controller(goals)
+    particle_num = 100
+    w_particle = particle_num * [0]
+    w_particle[0] = 1
+    particle = particle_num * [0]
+    t = 0
+
+    while True:
+        print "step:", t, "##########################"
+        o = simulator.get_o()
+        print "o =", o
+        w_particle = estimater.add_weight(particle, particle_num, o)
+        particle = estimater.update_p_s(particle, w_particle, particle_num)
+        print "after observe:", particle
+        print collections.Counter(particle).most_common(1)
+        determined_s = collections.Counter(particle).most_common(1)[0][0]
+
+        a = controller.determine_a(determined_s)
+        print "a =", a
+
+        if controller.is_terminated() is True:
+#            print_result(o_log, actual_s_log, determined_s_log, a_log, t)
+            print "Finish"
+            break
+
+        simulator.set_a(a)
+        s = simulator.get_s()
+        print "s =", s
+        t = t + 1
+        particle = estimater.update_p_s_bar(particle, a)
+        print "before observe:", particle
