@@ -32,10 +32,16 @@ class ParticleFilter(object):
             particle[i].append(new_s)
             print particle
 
+    def add_weight(self):
+        pass
+
+    def update_p_s(self):
+        pass
+
 
 if __name__ == "__main__":
 
     estimater = ParticleFilter()
     particle_num = 5
     particle = [[0 for i in range(1)] for j in range(particle_num)]
-    estimater.sampling(1, particle)
+    estimater.update_p_s(1, particle)
