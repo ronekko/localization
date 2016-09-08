@@ -50,14 +50,20 @@ class ParticleFilter(object):
             particle[i] = new_s
         return particle
 
-    def add_weight(self):
-        pass
+    def add_weight(self, particle, particle_num, o):
+        self.p_s_o = p_s_o
+        w_particle = 5 * [0]
+        particle_counter = 5 * [0]
+        new_w_particle = 5 * [0]
 
-    def update_p_s(self):
-        pass
+        for i in range(len(particle_counter)):
+            particle_counter[i] = particle.count(i)
+        print "particle_counter:", particle_counter
 
+        for i in range(len(particle_counter)):
+            w_particle[i] = particle_counter[i] * p_s_o[o][i]
+        print "w_particle:", w_particle
 
-if __name__ == "__main__":
 
     estimater = ParticleFilter()
     particle_num = 5
