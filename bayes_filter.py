@@ -161,7 +161,7 @@ def multinomial(p):
 
 def calculate_cum_sum(p):
     K = len(p)
-    cum_sum = K*[0]
+    cum_sum = K * [0]
     for n in range(K):
         if n == 0:
             cum_sum[n] = p[n]
