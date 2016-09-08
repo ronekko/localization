@@ -64,6 +64,18 @@ class ParticleFilter(object):
             w_particle[i] = particle_counter[i] * p_s_o[o][i]
         print "w_particle:", w_particle
 
+        sum_w = sum(w_particle[i] for i in range(len(w_particle)))
+
+        for i in range(len(w_particle)):
+            new_w_particle[i] = (w_particle[i] / sum_w)
+        print "new_w_particle:", new_w_particle
+        return new_w_particle
+
+    def update_p_s(self, particle, w_particle, particle_num):
+        for i in range(particle_num):
+            particle[i] = bayes_filter.multinomial(w_particle)
+        return particle
+
 
     estimater = ParticleFilter()
     particle_num = 5
