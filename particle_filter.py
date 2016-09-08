@@ -6,6 +6,7 @@ Created on Tue Sep 06 12:28:02 2016
 """
 
 import bayes_filter
+import collections
 
 
 p_o_s = [[0.01, 0.01, 0.01, 0.01, 0.85, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01],
