@@ -35,7 +35,7 @@ class ParticleFilter(object):
 
 if __name__ == "__main__":
 
-    simulater = ParticleFilter()
+    estimater = ParticleFilter()
     particle_num = 5
     particle = [[0 for i in range(1)] for j in range(particle_num)]
-    simulater.sampling(1, particle)
+    estimater.sampling(1, particle)
