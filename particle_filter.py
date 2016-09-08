@@ -77,6 +77,28 @@ class ParticleFilter(object):
         return particle
 
 
+class Controller(object):
+
+    def __init__(self, goals):
+        self.goals = goals
+
+    def determine_a(self, determined_s):
+        next_goal = self.goals[0]
+        if next_goal == determined_s:
+            self.goals.pop(0)
+            if self.is_terminated() is False:
+                next_goal = self.goals[0]
+        if next_goal - determined_s < 0:
+            a = 0
+        elif next_goal - determined_s > 0:
+            a = 1
+        else:
+            a = 2
+        return a
+
+    def is_terminated(self):
+        return bayes_filter.is_empty(self.goals)
+
     estimater = ParticleFilter()
     particle_num = 5
     particle = [[0 for i in range(1)] for j in range(particle_num)]
