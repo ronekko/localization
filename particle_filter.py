@@ -24,7 +24,7 @@ class ParticleFilter(object):
         self.p_s_a = p_s_a
         self.p_o_s = p_o_s
 
-    def sampling(self, a, particle):
+    def update_p_s_bar(self, a, particle):
         for i in range(5):
             s = particle[i][len(particle[i]) - 1]
             p_s = bayes_filter.p_s_a[a][s]
